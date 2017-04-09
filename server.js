@@ -27,8 +27,8 @@ var staticServer = new nodestatic.Server(".");
 var db = new sqlite3.Database('./piTemps3.db');
 
 var files = [ '/sys/bus/w1/devices/28-031674c7f4ff/w1_slave',
-	'/sys/bus/w1/devices/28-05167357f6ff/w1_slave',
-	'/sys/bus/w1/devices/28-0516736063ff/w1_slave' ];
+        '/sys/bus/w1/devices/28-05167357f6ff/w1_slave',
+        '/sys/bus/w1/devices/28-0516736063ff/w1_slave' ];
 var files = [ 'temp1.txt', 'temp2.txt', 'temp3.txt' ];
 var fields = [ 'Fermenter', 'Chamber', 'Room' ];
 
@@ -40,8 +40,8 @@ function insertTemp(data) {
     var sql_command = "INSERT INTO temperature_records VALUES (?, ";
     var command = 'statement.run(data.temperature_record[0].unix_time, ';
     for ( var i = 0, l = fields.length - 1; i < l; i++) {
-	sql_command += "?, ";
-	command += 'data.temperature_record[0].' + fields[i] + ', ';
+        sql_command += "?, ";
+        command += 'data.temperature_record[0].' + fields[i] + ', ';
     }
     sql_command += "?)";
     command += 'data.temperature_record[0].' + fields[l] + ');';
@@ -55,34 +55,34 @@ function insertTemp(data) {
 
 function tempHandler(callback) {
     return function(err, buffer) {
-	var temp_record = {
-	    temperature_record : [ {
-		unix_time : Date.now()
-	    } ]
-	};
-	for ( var i = 0, l = buffer.length; i < l; i++) {
-	    if (err) {
-		console.error(err);
-		process.exit(1);
-	    }
+        var temp_record = {
+            temperature_record : [ {
+                unix_time : Date.now()
+            } ]
+        };
+        for ( var i = 0, l = buffer.length; i < l; i++) {
+            if (err) {
+                console.error(err);
+                process.exit(1);
+            }
 
-	    // Read data from file (using fast node ASCII encoding).
-	    var data = buffer[i].toString('ascii').split(" "); // Split by
-	    // space
+            // Read data from file (using fast node ASCII encoding).
+            var data = buffer[i].toString('ascii').split(" "); // Split by
+            // space
 
-	    // Extract temperature from string and divide by 1000 to give
-	    // celsius
-	    var temp = parseFloat(data[data.length - 1].split("=")[1]) / 1000.0;
+            // Extract temperature from string and divide by 1000 to give
+            // celsius
+            var temp = parseFloat(data[data.length - 1].split("=")[1]) / 1000.0;
 
-	    // Round to one decimal place
-	    temp = Math.round(temp * 10) / 10;
+            // Round to one decimal place
+            temp = Math.round(temp * 10) / 10;
 
-	    // Add date/time to temperature
-	    eval('temp_record.temperature_record[0].' + fields[i] + ' = temp');
-	}
+            // Add date/time to temperature
+            eval('temp_record.temperature_record[0].' + fields[i] + ' = temp');
+        }
 
-	// Execute call back with data
-	callback(temp_record);
+        // Execute call back with data
+        callback(temp_record);
     };
 }
 
@@ -108,44 +108,44 @@ function selectTemp(num_records, start_date, callback) {
     // - start_date is the first date in the time-series required,
     // - callback is the output function
     db
-	    .all(
-		    "SELECT * FROM (SELECT * FROM temperature_records WHERE unix_time > (strftime('%s',?)*1000) ORDER BY unix_time DESC LIMIT ?) ORDER BY unix_time;",
-		    start_date, num_records, function(err, rows) {
-			if (err) {
-			    response.writeHead(500, {
-				"Content-type" : "text/html"
-			    });
-			    response.end(err + "\n");
-			    console.log('Error serving querying database. '
-				    + err);
-			    return;
-			}
-			data = {
-			    temperature_record : [ rows ]
-			};
-			callback(data);
-		    });
+            .all(
+                    "SELECT * FROM (SELECT * FROM temperature_records WHERE unix_time > (strftime('%s',?)*1000) ORDER BY unix_time DESC LIMIT ?) ORDER BY unix_time;",
+                    start_date, num_records, function(err, rows) {
+                        if (err) {
+                            response.writeHead(500, {
+                                "Content-type" : "text/html"
+                            });
+                            response.end(err + "\n");
+                            console.log('Error serving querying database. '
+                                    + err);
+                            return;
+                        }
+                        data = {
+                            temperature_record : [ rows ]
+                        };
+                        callback(data);
+                    });
 };
 
 function json_handler(response) {
     return function(data) {
-	response.writeHead(200, {
-	    "Content-type" : "application/json"
-	});
-	response.end(JSON.stringify(data), "ascii");
+        response.writeHead(200, {
+            "Content-type" : "application/json"
+        });
+        response.end(JSON.stringify(data), "ascii");
     };
 }
 
 function csv_handler(response) {
     return function(data) {
-	var date = moment(Date.now()).format('YYYY-MM-DD_HH-mm');
-	response.setHeader('Content-Type', 'text/plain');
-	response.setHeader('Content-Disposition', 'attachment; filename=log_'
-		+ date + '.csv');
-	csv_stringify(data.temperature_record[0], function(err, output) {
-	    response.write(output, 'binary');
-	    response.end();
-	});
+        var date = moment(Date.now()).format('YYYY-MM-DD_HH-mm');
+        response.setHeader('Content-Type', 'text/plain');
+        response.setHeader('Content-Disposition', 'attachment; filename=log_'
+                + date + '.csv');
+        csv_stringify(data.temperature_record[0], function(err, output) {
+            response.write(output, 'binary');
+            response.end();
+        });
     };
 }
 
@@ -160,75 +160,75 @@ function(request, response) {
 
     // Test to see if it's a database query
     if (pathfile == '/temperature_query.json') {
-	// Test to see if number of observations was specified as url query
-	var num_obs = -1; // If not specified default to 20. Note use -1 in
-	// query string to get all.
-	var start_date = '1970-01-01T00:00';
-	if (query.num_obs) {
-	    num_obs = parseInt(query.num_obs);
-	} else {
+        // Test to see if number of observations was specified as url query
+        var num_obs = -1; // If not specified default to 20. Note use -1 in
+        // query string to get all.
+        var start_date = '1970-01-01T00:00';
+        if (query.num_obs) {
+            num_obs = parseInt(query.num_obs);
+        } else {
 
-	}
-	if (query.start_date) {
-	    start_date = query.start_date;
-	} else {
+        }
+        if (query.start_date) {
+            start_date = query.start_date;
+        } else {
 
-	}
-	// Send a message to console log
-	console.log('Database query request from '
-		+ request.connection.remoteAddress + ' for ' + num_obs
-		+ ' records from ' + start_date + '.');
-	// call selectTemp function to get data from database
-	selectTemp(num_obs, start_date, json_handler(response));
-	return;
+        }
+        // Send a message to console log
+        console.log('Database query request from '
+                + request.connection.remoteAddress + ' for ' + num_obs
+                + ' records from ' + start_date + '.');
+        // call selectTemp function to get data from database
+        selectTemp(num_obs, start_date, json_handler(response));
+        return;
     }
 
     // Test to see if it's a request for current temperature
     if (pathfile == '/temperature_now.json') {
-	readTemp(json_handler(response));
-	return;
+        readTemp(json_handler(response));
+        return;
     }
 
     if (pathfile == '/get_log') {
-	selectTemp(-1, '1970-01-01T00:00', csv_handler(response));
-	return;
+        selectTemp(-1, '1970-01-01T00:00', csv_handler(response));
+        return;
     }
 
     if (pathfile == '/') {
-	pathfile = '/index.htm';
+        pathfile = '/index.htm';
     }
 
     // Handler for favicon.ico requests
     if (pathfile == '/favicon.ico') {
-	response.writeHead(200, {
-	    'Content-Type' : 'image/x-icon'
-	});
-	response.end();
+        response.writeHead(200, {
+            'Content-Type' : 'image/x-icon'
+        });
+        response.end();
 
-	// Optionally log favicon requests.
-	// console.log('favicon requested');
-	return;
+        // Optionally log favicon requests.
+        // console.log('favicon requested');
+        return;
     }
 
     else {
-	// Print requested file to terminal
-	console.log('Request from ' + request.connection.remoteAddress
-		+ ' for: ' + pathfile);
-	request.url = pathfile;
-	// Serve file using node-static
-	staticServer.serve(request, response, function(err, result) {
-	    if (err) {
-		// Log the error
-		console.error("Error serving " + request.url + " - "
-			+ err.message);
+        // Print requested file to terminal
+        console.log('Request from ' + request.connection.remoteAddress
+                + ' for: ' + pathfile);
+        request.url = pathfile;
+        // Serve file using node-static
+        staticServer.serve(request, response, function(err, result) {
+            if (err) {
+                // Log the error
+                console.error("Error serving " + request.url + " - "
+                        + err.message);
 
-		// Respond to the client
-		response.writeHead(err.status, err.headers);
-		response.end('Error 404 - file not found');
-		return;
-	    }
-	    return;
-	});
+                // Respond to the client
+                response.writeHead(err.status, err.headers);
+                response.end('Error 404 - file not found');
+                return;
+            }
+            return;
+        });
     }
 });
 
