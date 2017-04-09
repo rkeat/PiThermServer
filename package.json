@@ -29,6 +29,8 @@
   "dependencies": {
     "sqlite3": ">=2.1.19",
     "node-static": ">=0.7.3",
-    "async": "*"
+    "async": "*",
+    "csv-stringify": "*",
+    "moment": "*"
   }
 }
