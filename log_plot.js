@@ -38,10 +38,9 @@ function getData() {
                         // Iterate JSON data series and add to plot
                         while (data.temperature_record[0][i]) {
                             for ( var j = 0, l = fields.length; j < l; j++) {
-                                eval('series[j].data.push(['
-                                        + '(data.temperature_record[0][i].unix_time) - tz, '
-                                        + 'data.temperature_record[0][i].'
-                                        + fields[j] + ']);');
+                                series[j].data.push([
+                                        (data.temperature_record[0][i].unix_time) - tz, 
+                                        data.temperature_record[0][i][fields[j]]]);
                             }
                             i++;
                         }

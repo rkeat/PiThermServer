@@ -78,7 +78,7 @@ function tempHandler(callback) {
             temp = Math.round(temp * 10) / 10;
 
             // Add date/time to temperature
-            eval('temp_record.temperature_record[0].' + fields[i] + ' = temp');
+            temp_record.temperature_record[0][fields[i]] = temp;
         }
 
         // Execute call back with data

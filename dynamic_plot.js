@@ -42,10 +42,8 @@ function getData() {
                                                                     // 1000))
 
                         for ( var i = 0, l = fields.length; i < l; i++) {
-                            eval('chart.series[i].addPoint([ (data.temperature_record[0].unix_time) - tz, '
-                                    + 'data.temperature_record[0].'
-                                    + fields[i]
-                                    + '], true, shift);');
+                            chart.series[i].addPoint([ (data.temperature_record[0].unix_time) - tz,
+                                    data.temperature_record[0][fields[i]]], true, shift);
                         }
                         // Repeat this function call after 1 second
                         setTimeout(getData, 1000);
