@@ -1,6 +1,5 @@
 var chart; // global chart variable
-// Get data from server in JSON format (query time series when sensor was
-// outside).
+//Get data from server in JSON format (query time series when sensor was outside).
 
 var fields = [ 'Fermenter', 'Chamber', 'Room' ];
 
@@ -22,35 +21,30 @@ var series = [ {
 } ];
 
 function getData() {
-    $
-            .getJSON(
-                    '/temperature_query.json?num_obs=-1&start_date=2013-01-23T16:00',
-                    function(data) {
-                        var i = 0;
-                        var date = new Date();
-                        // Get timezone offset and convert to milliseconds
-                        var tz = date.getTimezoneOffset() * 60000; // one zero
-                                                                    // more
-                        // because (sec in
-                        // min * ms in sec
-                        // ==> (60 * 1000))
+    $.getJSON('/temperature_query.json?num_obs=-1&start_date=2013-01-23T16:00',
+            function(data) {
+                var i = 0;
+                var date = new Date();
+                // Get timezone offset and convert to milliseconds
+                var tz = date.getTimezoneOffset() * 60000; // one zero
+                // more because (sec in min * ms in sec ==> (60 * 1000))
 
-                        // Iterate JSON data series and add to plot
-                        while (data.temperature_record[0][i]) {
-                            for ( var j = 0, l = fields.length; j < l; j++) {
-                                series[j].data.push([
-                                        (data.temperature_record[0][i].unix_time) - tz, 
-                                        data.temperature_record[0][i][fields[j]]]);
-                            }
-                            i++;
-                        }
-                        for ( var i = 0, l = series.length; i < l; i++) {
-                            chart.addSeries(series[i]);
-                        }
-                    });
+                // Iterate JSON data series and add to plot
+                while (data.temperature_record[0][i]) {
+                    for ( var j = 0, l = fields.length; j < l; j++) {
+                        series[j].data.push([
+                                (data.temperature_record[0][i].unix_time) - tz,
+                                data.temperature_record[0][i][fields[j]] ]);
+                    }
+                    i++;
+                }
+                for ( var i = 0, l = series.length; i < l; i++) {
+                    chart.addSeries(series[i]);
+                }
+            });
 }
 
-// Configure the plot
+//Configure the plot
 $(document).ready(function() {
     chart = new Highcharts.Chart({
         chart : {

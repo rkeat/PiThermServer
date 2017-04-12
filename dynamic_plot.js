@@ -15,39 +15,25 @@ var series = [ {
 
 // Get data from Pi NodeJS server
 function getData() {
-    $
-            .getJSON(
-                    './temperature_now.json',
-                    function(data) {
-                        // alert(data.unix_time);
-                        // Create the series
-                        var series = chart.series[0], shift = series.data.length > 20; // shift
-                                                                                        // if
-                                                                                        // the
-                                                                                        // series
-                                                                                        // longer
-                                                                                        // than
-                                                                                        // 20
-                        // Add the point
+    $.getJSON('./temperature_now.json', function(data) {
+        // alert(data.unix_time);
+        // Create the series
+        var series = chart.series[0], shift = series.data.length > 20; // shift
+        // if the series is longer than 20 Add the point
 
-                        var date = new Date();
-                        // Get timezone offset and convert to milliseconds
-                        var tz = date.getTimezoneOffset() * 60000; // one zero
-                                                                    // more
-                                                                    // because
-                                                                    // (sec in
-                                                                    // min * ms
-                                                                    // in sec
-                                                                    // ==> (60 *
-                                                                    // 1000))
+        var date = new Date();
+        // Get timezone offset and convert to milliseconds
+        var tz = date.getTimezoneOffset() * 60000; // one zero
+        // more because (sec in min * ms in sec ==> (60 * 1000))
 
-                        for ( var i = 0, l = fields.length; i < l; i++) {
-                            chart.series[i].addPoint([ (data.temperature_record[0].unix_time) - tz,
-                                    data.temperature_record[0][fields[i]]], true, shift);
-                        }
-                        // Repeat this function call after 1 second
-                        setTimeout(getData, 1000);
-                    });
+        for ( var i = 0, l = fields.length; i < l; i++) {
+            chart.series[i].addPoint([
+                    (data.temperature_record[0].unix_time) - tz,
+                    data.temperature_record[0][fields[i]] ], true, shift);
+        }
+        // Repeat this function call after 1 second
+        setTimeout(getData, 1000);
+    });
 }
 
 // Configure the plot
