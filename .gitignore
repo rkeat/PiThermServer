@@ -6,3 +6,4 @@ node_modules
 .project
 .settings
 *.db-journal
+*.tar.gz
