@@ -26,13 +26,12 @@ var staticServer = new nodestatic.Server(".");
 // Setup database connection for logging
 var db = new sqlite3.Database('./piTemps3.db');
 
-var files = [ '/sys/bus/w1/devices/28-031674c7f4ff/w1_slave',
+var files = [ '/sys/bus/w1/devices/28-0516736063ff/w1_slave',
         '/sys/bus/w1/devices/28-05167357f6ff/w1_slave',
-        '/sys/bus/w1/devices/28-0516736063ff/w1_slave' ];
-var files = [ 'temp1.txt', 'temp2.txt', 'temp3.txt' ];
+        '/sys/bus/w1/devices/28-031674c7f4ff/w1_slave' ];
 var fields = [ 'Fermenter', 'Chamber', 'Room' ];
 
-var msecs = 1000;// (60 * 2) * 1000; // log interval duration in milliseconds
+var msecs = 2000;// (60 * 2) * 1000; // log interval duration in milliseconds INTERVAL For Logger 10 sec.
 
 // Create a new instance of a temperature sensor
 var thermo = new sensors.temperature(files, fields);
@@ -106,7 +105,7 @@ function(request, response) {
     }
 
     if (pathfile == '/') {
-        pathfile = '/index.htm';
+        pathfile = '/index.html';
     }
 
     // Handler for favicon.ico requests

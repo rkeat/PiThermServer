@@ -9,8 +9,7 @@
 
  var thermo = new sensors.temperature();
 
- Currently handles reading temperature data from DS18B20 sensor. My serial 
- number: 28-00000400a88a
+ Currently handles reading temperature data from DS18B20 sensors
 
  Tom Holderness (C) 25/01/2013
 

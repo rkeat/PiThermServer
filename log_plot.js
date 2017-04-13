@@ -49,7 +49,7 @@ $(document).ready(function() {
     chart = new Highcharts.Chart({
         chart : {
             renderTo : 'container',
-            // type: 'spline',
+             //type: 'spline',
             zoomType : 'x',
             spaceRight : 20,
             events : {
@@ -57,7 +57,7 @@ $(document).ready(function() {
             }
         },
         title : {
-            text : '[BrewLab Tokyo] Fermentation Log '
+            text : '[BrewLive] Fermentation Log '
         },
         subtitle : {
             text : 'Click and drag in the plot area to zoom in',

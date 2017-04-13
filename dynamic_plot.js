@@ -3,7 +3,7 @@ var chart; // global chart variable
 var fields = [ 'Fermenter', 'Chamber', 'Room' ];
 
 var series = [ {
-    name : 'Sensor#1 Fermenter. (\u00B10.5\u00B0C)',
+    name : 'Sensor#1 Fermenter (\u00B10.5\u00B0C)',
     data : []
 }, {
     name : 'Sensor#2 Chamber (\u00B10.5\u00B0C)',
@@ -31,8 +31,8 @@ function getData() {
                     (data.temperature_record[0].unix_time) - tz,
                     data.temperature_record[0][fields[i]] ], true, shift);
         }
-        // Repeat this function call after 1 second
-        setTimeout(getData, 1000);
+        // Repeat this function call after 2 second
+        setTimeout(getData, 2000);
     });
 }
 
@@ -47,14 +47,14 @@ $(document).ready(function() {
             }
         },
         title : {
-            text : '[BrewLab Tokyo] Live Temperature Plot'
+            text : '[BrewLive] Temperature Plot'
         },
         xAxis : {
             type : 'datetime',
             tickPixelInterval : 150,
             maxZoom : 20 * 1000,
             title : {
-                text : 'Time (sensor called at one second intervals)',
+                text : 'Time (sensor called at two second intervals)',
                 margin : 15
             }
         },
