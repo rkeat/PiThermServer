@@ -3,13 +3,13 @@ var chart; // global chart variable
 var fields = [ 'Fermenter', 'Chamber', 'Room' ];
 
 var series = [ {
-    name : 'Sensor#1 Fermenter (\u00B10.5\u00B0C)',
+    name : 'Fermenter (\u00B10.5\u00B0C)',
     data : []
 }, {
-    name : 'Sensor#2 Chamber (\u00B10.5\u00B0C)',
+    name : 'Chamber (\u00B10.5\u00B0C)',
     data : []
 }, {
-    name : 'Sensor#3 Room (\u00B10.5\u00B0C)',
+    name : 'Room (\u00B10.5\u00B0C)',
     data : []
 } ];
 
@@ -18,8 +18,8 @@ function getData() {
     $.getJSON('./temperature_now.json', function(data) {
         // alert(data.unix_time);
         // Create the series
-        var series = chart.series[0], shift = series.data.length > 20; // shift
-        // if the series is longer than 20 Add the point
+        var series = chart.series[0], shift = series.data.length > 100; // shift
+        // if the series is longer than 100 Add the point
 
         var date = new Date();
         // Get timezone offset and convert to milliseconds
@@ -31,8 +31,8 @@ function getData() {
                     (data.temperature_record[0].unix_time) - tz,
                     data.temperature_record[0][fields[i]] ], true, shift);
         }
-        // Repeat this function call after 2 second
-        setTimeout(getData, 2000);
+        // Repeat this function call after 15 second
+        setTimeout(getData, 15000);
     });
 }
 
@@ -54,13 +54,16 @@ $(document).ready(function() {
             tickPixelInterval : 150,
             maxZoom : 20 * 1000,
             title : {
-                text : 'Time (sensor called at two second intervals)',
+                text : 'Time (sensor called at 15 second intervals)',
                 margin : 15
             }
         },
         yAxis : {
             minPadding : 0.2,
             maxPadding : 0.2,
+            alternateGridColor : '#F2F2F2',
+            lineColor : '#FF0000',
+            lineWidth : 1,
             title : {
                 text : 'Temperature \u00B0C',
                 margin : 15

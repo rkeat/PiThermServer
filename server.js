@@ -31,7 +31,7 @@ var files = [ '/sys/bus/w1/devices/28-0516736063ff/w1_slave',
         '/sys/bus/w1/devices/28-031674c7f4ff/w1_slave' ];
 var fields = [ 'Fermenter', 'Chamber', 'Room' ];
 
-var msecs = 2000;// (60 * 2) * 1000; // log interval duration in milliseconds INTERVAL For Logger 10 sec.
+var msecs = 10000;// (60 * 2) * 1000; // log interval duration in milliseconds |  INTERVAL Logger and .db set to 10 sec.
 
 // Create a new instance of a temperature sensor
 var thermo = new sensors.temperature(files, fields);

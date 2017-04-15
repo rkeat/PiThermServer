@@ -5,17 +5,17 @@ var fields = [ 'Fermenter', 'Chamber', 'Room' ];
 
 var series = [ {
     id : 'series1',
-    name : 'Sensor#1 Fermenter (\u00B10.5\u00B0C)',
+    name : 'Fermenter (\u00B10.5\u00B0C)',
     type : 'spline',
     data : []
 }, {
     id : 'series2',
-    name : 'Sensor#2 Chamber (\u00B10.5\u00B0C)',
+    name : 'Chamber (\u00B10.5\u00B0C)',
     type : 'spline',
     data : []
 }, {
     id : 'series3',
-    name : 'Sensor#3 Room (\u00B10.5\u00B0C)',
+    name : 'Room (\u00B10.5\u00B0C)',
     type : 'spline',
     data : []
 } ];
@@ -77,7 +77,10 @@ $(document).ready(function() {
             minPadding : 0.2,
             maxPadding : 0.2,
             showFirstLabel : false,
-            title : {
+            alternateGridColor : '#F2F2F2',
+             lineColor : '#FF0000',
+             lineWidth : 1,
+             title : {
                 text : 'Temperature \u00B0C',
                 margin : 15
             }
