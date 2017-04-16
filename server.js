@@ -29,6 +29,7 @@ var db = new sqlite3.Database('./piTemps3.db');
 var files = [ '/sys/bus/w1/devices/28-0516736063ff/w1_slave',
         '/sys/bus/w1/devices/28-05167357f6ff/w1_slave',
         '/sys/bus/w1/devices/28-031674c7f4ff/w1_slave' ];
+// var files = [ 'temp1.txt', 'temp2.txt', 'temp3.txt' ];
 var fields = [ 'Fermenter', 'Chamber', 'Room' ];
 
 var msecs = 10000;// (60 * 2) * 1000; // log interval duration in milliseconds |  INTERVAL Logger and .db set to 10 sec.
@@ -36,6 +37,7 @@ var msecs = 10000;// (60 * 2) * 1000; // log interval duration in milliseconds |
 // Create a new instance of a temperature sensor
 var thermo = new sensors.temperature(files, fields);
 var db_logger = new logger.logger(fields, db);
+db_logger.create();
 
 function json_handler(response) {
     return function(data) {

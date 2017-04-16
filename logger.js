@@ -1,6 +1,12 @@
 //logger.js - Functions to log sensor readings to SQLite database
 
 function logger(fields, database) {
+    this.create = function() {
+        database.serialize(function() {
+            database.run("CREATE TABLE if not exists temperature_records(unix_time bigint primary key, Fermenter real, Chamber real, Room real);");            
+        });
+    };
+    
     // Write a single temperature record in JSON format to database table.
     this.write = function(data) {
         // data is a javascript object
@@ -30,12 +36,12 @@ function logger(fields, database) {
                         "SELECT * FROM (SELECT * FROM temperature_records WHERE unix_time > (strftime('%s',?)*1000) ORDER BY unix_time DESC LIMIT ?) ORDER BY unix_time;",
                         start_date, num_records, function(err, rows) {
                             if (err) {
+                                console.log('Error serving querying database. '
+                                        + err);
                                 response.writeHead(500, {
                                     "Content-type" : "text/html"
                                 });
                                 response.end(err + "\n");
-                                console.log('Error serving querying database. '
-                                        + err);
                                 return;
                             }
                             data = {

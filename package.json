@@ -4,7 +4,7 @@
   "description": "Simple NodeJS server and SQLite3 logger for the DS18B20 digital temperature sensor on the Raspberry Pi.",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vows test/* --spec",
     "start": "node server.js"
   },
   "repository": {
@@ -31,6 +31,7 @@
     "node-static": ">=0.7.3",
     "async": "*",
     "csv-stringify": "*",
-    "moment": "*"
+    "moment": "*",
+    "vows": "*"
   }
 }
