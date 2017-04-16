@@ -6,7 +6,8 @@
   "scripts": {
     "test": "vows ./test/*.js --spec",
     "cover": "istanbul cover vows ./test/*.js --spec",
-    "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
+    "codeclimate": "cat ./coverage/lcov.info | codeclimate-test-reporter",
     "start": "node server.js"
   },
   "repository": {
@@ -38,6 +39,7 @@
   "devDependencies": {
     "coveralls": "*",
     "vows": "*",
-    "istanbul": "*"
+    "istanbul": "*",
+    "codeclimate-test-reporter": "*"
   }
 }
