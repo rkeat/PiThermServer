@@ -7,3 +7,5 @@ node_modules
 .settings
 *.db-journal
 *.tar.gz
+.coveralls.yml
+coverage

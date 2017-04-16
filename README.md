@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/rkeat/PiThermServer.svg?branch=master)](https://travis-ci.org/rkeat/PiThermServer)
+[![Coverage Status](https://coveralls.io/repos/github/rkeat/PiThermServer/badge.svg?branch=master)](https://coveralls.io/github/rkeat/PiThermServer?branch=master)
 
 PiThermServer for Brewer (new md files to come)
 =============
