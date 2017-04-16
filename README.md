@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/rkeat/PiThermServer.svg?branch=master)](https://travis-ci.org/rkeat/PiThermServer)
+
 PiThermServer for Brewer (new md files to come)
 =============
 
